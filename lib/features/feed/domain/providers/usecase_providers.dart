@@ -10,7 +10,7 @@ import 'package:lionsns/features/feed/domain/usecases/delete_comment_usecase.dar
 import 'package:lionsns/features/feed/domain/usecases/toggle_like_usecase.dart';
 import 'package:lionsns/features/feed/domain/usecases/get_like_count_usecase.dart';
 import 'package:lionsns/features/feed/domain/usecases/get_user_liked_posts_usecase.dart';
-import 'repository_providers.dart';
+import '../../data/providers/factory_providers.dart';
 
 final getPostsUseCaseProvider = Provider<GetPostsUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);

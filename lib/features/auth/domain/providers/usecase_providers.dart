@@ -8,7 +8,7 @@ import 'package:lionsns/features/auth/domain/usecases/get_follow_status_usecase.
 import 'package:lionsns/features/auth/domain/usecases/get_follow_list_usecase.dart';
 import 'package:lionsns/features/auth/domain/usecases/get_profile_usecase.dart';
 import 'package:lionsns/features/auth/domain/usecases/update_profile_usecase.dart';
-import 'repository_providers.dart';
+import '../../data/providers/factory_providers.dart';
 
 final signInUseCaseProvider = Provider<SignInUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);

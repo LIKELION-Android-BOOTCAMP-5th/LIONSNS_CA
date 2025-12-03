@@ -74,13 +74,6 @@ class PostFormViewModel extends StateNotifier<PostFormState> {
 
   /// 게시글 생성
   Future<Result<Post>> createPost() async {
-    if (state.title.isEmpty || state.content.isEmpty) {
-      state = state.copyWith(
-        errorMessage: '제목과 내용을 입력해주세요',
-      );
-      return const Failure('제목과 내용을 입력해주세요');
-    }
-
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     final currentUserId = _getCurrentUserUseCase.getCurrentUserId();
@@ -92,7 +85,7 @@ class PostFormViewModel extends StateNotifier<PostFormState> {
       return const Failure('로그인이 필요합니다');
     }
 
-      final post = Post.create(
+    final post = Post.create(
       title: state.title,
       content: state.content,
       authorId: currentUserId,
@@ -119,13 +112,6 @@ class PostFormViewModel extends StateNotifier<PostFormState> {
 
   /// 게시글 수정
   Future<Result<Post>> updatePost(String id) async {
-    if (state.title.isEmpty || state.content.isEmpty) {
-      state = state.copyWith(
-        errorMessage: '제목과 내용을 입력해주세요',
-      );
-      return const Failure('제목과 내용을 입력해주세요');
-    }
-
     state = state.copyWith(isLoading: true, errorMessage: null);
 
     final getResult = await _getPostByIdUseCase(id);

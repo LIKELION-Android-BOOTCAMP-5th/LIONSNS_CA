@@ -89,12 +89,6 @@ class PostDetailViewModel extends StateNotifier<PostDetailState> {
 
   /// 좋아요 토글
   Future<void> toggleLike(String postId) async {
-    final currentUserId = _getCurrentUserUseCase.getCurrentUserId();
-    if (currentUserId == null) {
-      state = state.copyWith(errorMessage: '로그인이 필요합니다');
-      return;
-    }
-
     // 현재 게시글 상태 가져오기
     final currentPost = state.postResult?.when(
       success: (post) => post,
@@ -121,7 +115,7 @@ class PostDetailViewModel extends StateNotifier<PostDetailState> {
       ),
     );
 
-    final result = await _toggleLikeUseCase(postId, currentUserId);
+    final result = await _toggleLikeUseCase(postId, null); // UseCase에서 로그인 체크 처리
 
     result.when(
       success: (finalIsLiked) async {
@@ -166,12 +160,6 @@ class PostDetailViewModel extends StateNotifier<PostDetailState> {
 
   /// 댓글 작성
   Future<void> addComment(String postId, String content) async {
-    final currentUserId = _getCurrentUserUseCase.getCurrentUserId();
-    if (currentUserId == null) {
-      state = state.copyWith(errorMessage: '로그인이 필요합니다');
-      return;
-    }
-
     // 현재 게시글 및 댓글 상태 가져오기
     final currentPost = state.postResult?.when(
       success: (post) => post,
@@ -191,7 +179,7 @@ class PostDetailViewModel extends StateNotifier<PostDetailState> {
 
     final result = await _createCommentUseCase(
       postId: postId,
-      userId: currentUserId,
+      userId: null, // UseCase에서 로그인 체크 처리
       content: content,
     );
 
@@ -254,7 +242,7 @@ class PostDetailViewModel extends StateNotifier<PostDetailState> {
           : state.postResult,
     );
 
-    final result = await _deleteCommentUseCase(commentId);
+    final result = await _deleteCommentUseCase(commentId, postId);
 
     result.when(
       success: (_) {

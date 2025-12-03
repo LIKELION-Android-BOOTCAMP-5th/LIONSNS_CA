@@ -10,6 +10,7 @@ import 'package:lionsns/features/feed/domain/usecases/delete_comment_usecase.dar
 import 'package:lionsns/features/feed/domain/usecases/toggle_like_usecase.dart';
 import 'package:lionsns/features/feed/domain/usecases/get_like_count_usecase.dart';
 import 'package:lionsns/features/feed/domain/usecases/get_user_liked_posts_usecase.dart';
+import 'package:lionsns/features/auth/domain/providers/usecase_providers.dart';
 import '../../data/providers/factory_providers.dart';
 
 final getPostsUseCaseProvider = Provider<GetPostsUseCase>((ref) {
@@ -27,19 +28,24 @@ final getPostByIdUseCaseProvider = Provider<GetPostByIdUseCase>((ref) {
 final createPostUseCaseProvider = Provider<CreatePostUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);
   final repository = factory.createPostRepository();
-  return CreatePostUseCase(repository);
+  final getCurrentUserUseCase = ref.watch(getCurrentUserUseCaseProvider);
+  return CreatePostUseCase(repository, getCurrentUserUseCase);
 });
 
 final updatePostUseCaseProvider = Provider<UpdatePostUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);
   final repository = factory.createPostRepository();
-  return UpdatePostUseCase(repository);
+  final getCurrentUserUseCase = ref.watch(getCurrentUserUseCaseProvider);
+  final getPostByIdUseCase = ref.watch(getPostByIdUseCaseProvider);
+  return UpdatePostUseCase(repository, getCurrentUserUseCase, getPostByIdUseCase);
 });
 
 final deletePostUseCaseProvider = Provider<DeletePostUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);
   final repository = factory.createPostRepository();
-  return DeletePostUseCase(repository);
+  final getCurrentUserUseCase = ref.watch(getCurrentUserUseCaseProvider);
+  final getPostByIdUseCase = ref.watch(getPostByIdUseCaseProvider);
+  return DeletePostUseCase(repository, getCurrentUserUseCase, getPostByIdUseCase);
 });
 
 final getCommentsUseCaseProvider = Provider<GetCommentsUseCase>((ref) {
@@ -51,19 +57,23 @@ final getCommentsUseCaseProvider = Provider<GetCommentsUseCase>((ref) {
 final createCommentUseCaseProvider = Provider<CreateCommentUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);
   final repository = factory.createCommentRepository();
-  return CreateCommentUseCase(repository);
+  final getCurrentUserUseCase = ref.watch(getCurrentUserUseCaseProvider);
+  return CreateCommentUseCase(repository, getCurrentUserUseCase);
 });
 
 final toggleLikeUseCaseProvider = Provider<ToggleLikeUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);
   final repository = factory.createLikeRepository();
-  return ToggleLikeUseCase(repository);
+  final getCurrentUserUseCase = ref.watch(getCurrentUserUseCaseProvider);
+  return ToggleLikeUseCase(repository, getCurrentUserUseCase);
 });
 
 final deleteCommentUseCaseProvider = Provider<DeleteCommentUseCase>((ref) {
   final factory = ref.watch(repositoryFactoryProvider);
   final repository = factory.createCommentRepository();
-  return DeleteCommentUseCase(repository);
+  final getCurrentUserUseCase = ref.watch(getCurrentUserUseCaseProvider);
+  final getCommentsUseCase = ref.watch(getCommentsUseCaseProvider);
+  return DeleteCommentUseCase(repository, getCurrentUserUseCase, getCommentsUseCase);
 });
 
 final getLikeCountUseCaseProvider = Provider<GetLikeCountUseCase>((ref) {
